@@ -2,6 +2,7 @@ import { IS_BROWSER } from "fresh/runtime";
 import { VerbumState } from "../lib/verbumState.ts";
 import Bible, { BibleState } from "./Bible.tsx";
 import { useEffect } from "preact/hooks";
+import BibleSelector from "./BibleSelector.tsx";
 
 export function Spatium() {
     const verbumState = new VerbumState();
@@ -16,6 +17,7 @@ export function Spatium() {
 
     return (
         <div class="spatium">
+            <BibleSelector bibleState={bibleState} />
             <Bible bibleState={bibleState} />
         </div>
     );

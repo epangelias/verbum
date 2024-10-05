@@ -1,6 +1,7 @@
 import { Signal, useSignal, useSignalEffect } from "@preact/signals";
 import { VerbumState } from "../lib/verbumState.ts";
 import { BookListItem, ChapterData } from "../lib/types.ts";
+import BibleSelector from "./BibleSelector.tsx";
 
 export class BibleState {
     constructor({ verbumState }: { verbumState: VerbumState }) {
@@ -80,40 +81,20 @@ interface BibleProps {
 export default function Bible({ bibleState }: BibleProps) {
     return (
         <div class="bible">
-            <button onClick={() => bibleState.prevChapter()}>◀</button>
-            <button onClick={() => bibleState.nextChapter()}>▶</button>
-            <button onClick={() => bibleState.toggleBible()}>
-                {bibleState.bibleId?.slice(0, 3)}
-            </button>
-            <select
-                value={bibleState.bookId}
-                onChange={(e) =>
-                    bibleState.setBook((e.target as HTMLSelectElement).value)}
-            >
-                {bibleState.bookList?.map((b) => <option>{b.book}</option>)}
-            </select>
-            <select
-                value={bibleState.chapterId}
-                onChange={(e) =>
-                    bibleState.setChapter(
-                        (e.target as HTMLSelectElement).value,
-                    )}
-            >
-                {bibleState.chapters.value.map((chap) => <option>{chap}
-                </option>)}
-            </select>
-            <div class="verses">
-                {bibleState.chapterData.value?.verses.map((verse) => (
-                    <div className="verse">
-                        <p>{verse.verse} {verse.text}</p>
-                        {verse.notes && (
-                            <details>
-                                <summary>Note</summary>
-                                {verse.notes}
-                            </details>
-                        )}
-                    </div>
-                ))}
+            <div className="content-center">
+                <div class="verses">
+                    {bibleState.chapterData.value?.verses.map((verse) => (
+                        <div className="verse">
+                            <p>{verse.verse} {verse.text}</p>
+                            {verse.notes && (
+                                <details>
+                                    <summary>Note</summary>
+                                    {verse.notes}
+                                </details>
+                            )}
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );
