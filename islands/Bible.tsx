@@ -91,12 +91,7 @@ export default function Bible({ bibleState }: BibleProps) {
                                 </span>{" "}
                                 {verse.text}
                             </p>
-                            {verse.notes && (
-                                <details>
-                                    <summary>Note</summary>
-                                    {verse.notes}
-                                </details>
-                            )}
+                            {verse.notes && <p class="note">{verse.notes}</p>}
                         </div>
                     ))}
                 </div>
