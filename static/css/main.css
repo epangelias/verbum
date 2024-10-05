@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   margin: 0;
@@ -10,14 +14,21 @@ body {
   max-width: 880px;
 }
 
+main,
+.spatium,
+body,
+html {
+  height: 100%;
+}
+
+.spatium {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .bible-selector {
-  position: sticky;
-  top: 0;
   padding: .25rem;
-  background: linear-gradient(Canvas, transparent);
-  /* background-color: color-mix(in srgb, Canvas, transparent 40%); */
-  /* backdrop-filter: blur(20px); */
-  /* -webkit-backdrop-filter: blur(20px); */
   z-index: 100;
 
   .content-center {
@@ -52,7 +63,9 @@ body {
 
 
 .bible {
+  flex: 1;
   padding: .5rem;
+  overflow-y: auto;
 
   .verses {
     .verse {
