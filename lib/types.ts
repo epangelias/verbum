@@ -22,3 +22,10 @@ export interface BibleData {
     id: string;
     books: BookData[];
 }
+
+export interface BookListItem {
+    book: string;
+    bookNumber: number;
+    testament: "OT" | "NT" | "AP";
+    chapters: number;
+}
