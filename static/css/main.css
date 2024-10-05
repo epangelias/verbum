@@ -17,7 +17,7 @@ body {
   background: linear-gradient(Canvas, transparent);
   /* background-color: color-mix(in srgb, Canvas, transparent 40%); */
   /* backdrop-filter: blur(20px); */
-  -webkit-backdrop-filter: blur(20px);
+  /* -webkit-backdrop-filter: blur(20px); */
   z-index: 100;
 
   .content-center {
