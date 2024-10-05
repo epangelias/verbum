@@ -48,6 +48,7 @@ html {
           height: 0;
           opacity: 0;
           user-select: none;
+          -webkit-user-select: none;
         }
       }
 
@@ -66,6 +67,7 @@ html {
   flex: 1;
   padding: .5rem;
   overflow-y: auto;
+  user-select: none;
 
   .verses {
     .verse {
@@ -73,12 +75,18 @@ html {
 
       .verse-number {
         user-select: none;
+        -webkit-user-select: none;
         display: inline-block;
         position: relative;
         left: -1rem;
         width: 0;
         opacity: 0.7;
         font-size: .6em;
+      }
+
+      p {
+        margin: .5rem 0;
+        line-height: 1.25;
       }
     }
 
@@ -88,6 +96,27 @@ html {
       margin-top: -0.5rem;
       margin-left: 1.1rem;
       opacity: 0.8;
+    }
+
+    .note-icon {
+      margin-left: .5rem;
+      opacity: 0.5;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .word {
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+
+      &[data-selected="true"] {
+        background-color: yellow;
+        outline: 2px solid yellow;
+        border-radius: 2px;
+        color: black;
+      }
     }
   }
 }

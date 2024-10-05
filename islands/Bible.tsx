@@ -2,6 +2,8 @@ import { Signal, useSignal, useSignalEffect } from "@preact/signals";
 import { VerbumState } from "../lib/verbumState.ts";
 import { BookListItem, ChapterData } from "../lib/types.ts";
 import BibleSelector from "./BibleSelector.tsx";
+import { useEffect } from "preact/hooks";
+import { useRef } from "preact/hooks";
 
 export class BibleState {
     constructor({ verbumState }: { verbumState: VerbumState }) {
@@ -79,6 +81,19 @@ interface BibleProps {
 }
 
 export default function Bible({ bibleState }: BibleProps) {
+    const selectedText = useSignal<string | undefined>("");
+
+    function matchWord(word: string) {
+        if (!selectedText.value) return;
+        const raw = (w: string) =>
+            w
+                .toLocaleLowerCase()
+                .replaceAll(",", "")
+                .replaceAll(".", "")
+                .replace(/(us|am|i|æ|ae|o|a|um|i|em)$/, "");
+        return raw(word) == raw(selectedText.value);
+    }
+
     return (
         <div class="bible">
             <div className="content-center">
@@ -88,10 +103,26 @@ export default function Bible({ bibleState }: BibleProps) {
                             <p>
                                 <span className="verse-number">
                                     {verse.verse}
-                                </span>{" "}
-                                {verse.text}
+                                </span>
+                                <span>
+                                    {verse.text.split(" ").map((word) => (
+                                        <>
+                                            <span
+                                                class="word"
+                                                data-selected={matchWord(word)}
+                                                onClick={() =>
+                                                    selectedText.value = word}
+                                            >
+                                                {word}
+                                            </span>
+                                            {" "}
+                                        </>
+                                    ))}
+                                </span>
+                                <span class="note-icon">
+                                    {verse.notes && "📝"}
+                                </span>
                             </p>
-                            {verse.notes && <p class="note">{verse.notes}</p>}
                         </div>
                     ))}
                 </div>

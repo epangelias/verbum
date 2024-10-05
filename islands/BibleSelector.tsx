@@ -1,3 +1,5 @@
+import { BibleState } from "./Bible.tsx";
+
 interface BibleSelectorProps {
     bibleState: BibleState;
 }
@@ -8,9 +10,6 @@ export default function BibleSelector({ bibleState }: BibleSelectorProps) {
             <div className="content-center">
                 <button class="arrow" onClick={() => bibleState.prevChapter()}>
                     ◀
-                </button>
-                <button class="arrow" onClick={() => bibleState.nextChapter()}>
-                    ▶
                 </button>
                 <button class="lang" onClick={() => bibleState.toggleBible()}>
                     {bibleState.bibleId?.slice(0, 3)}
@@ -28,14 +27,18 @@ export default function BibleSelector({ bibleState }: BibleSelectorProps) {
                 <select
                     class="chapter"
                     value={bibleState.chapterId}
-                    onChange={(e) => bibleState.setChapter(
-                        (e.target as HTMLSelectElement).value,
-                    )}
+                    onChange={(e) =>
+                        bibleState.setChapter(
+                            (e.target as HTMLSelectElement).value,
+                        )}
                 >
                     {bibleState.chapters.value.map((chap) => (
                         <option>{chap}</option>
                     ))}
                 </select>
+                <button class="arrow" onClick={() => bibleState.nextChapter()}>
+                    ▶
+                </button>
             </div>
         </header>
     );
