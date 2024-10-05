@@ -85,7 +85,12 @@ export default function Bible({ bibleState }: BibleProps) {
                 <div class="verses">
                     {bibleState.chapterData.value?.verses.map((verse) => (
                         <div className="verse">
-                            <p>{verse.verse} {verse.text}</p>
+                            <p>
+                                <span className="verse-number">
+                                    {verse.verse}
+                                </span>{" "}
+                                {verse.text}
+                            </p>
                             {verse.notes && (
                                 <details>
                                     <summary>Note</summary>
