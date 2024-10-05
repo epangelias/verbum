@@ -14,8 +14,9 @@ body {
   position: sticky;
   top: 0;
   padding: .25rem;
-  background-color: color-mix(in srgb, Canvas, transparent 40%);
-  backdrop-filter: blur(20px);
+  background: linear-gradient(Canvas, transparent);
+  /* background-color: color-mix(in srgb, Canvas, transparent 40%); */
+  /* backdrop-filter: blur(20px); */
   -webkit-backdrop-filter: blur(20px);
   z-index: 100;
 
@@ -25,7 +26,7 @@ body {
     gap: .5rem;
 
     * {
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       text-align: center;
 
       &.arrow {
