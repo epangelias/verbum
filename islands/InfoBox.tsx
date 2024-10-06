@@ -21,13 +21,15 @@ const infoTabs: InfoTab[] = [
     {
         title: "Hebrew",
         icon: "🇮🇱",
-        prompt: "Explain the Hebrew meaning of the selected word",
+        prompt:
+            "Explain the meaning of the hebrew word that is used in place of the selected word in the original Hebrew",
         purpose: "word",
     },
     {
         title: "Greek",
         icon: "🇬🇷",
-        prompt: "Explain the Greek meaning of the selected word (LXX or NT)",
+        prompt:
+            "Explain the meaning of the greek word that is used as selected word in the LXX or Greek NT",
         purpose: "word",
     },
     {
