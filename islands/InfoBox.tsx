@@ -70,15 +70,22 @@ const infoTabs: InfoTab[] = [
     },
     {
         title: "All Interpretations",
-        icon: "🔍",
-        prompt: "List all interpretations for the selected verse",
+        icon: "⚖️",
+        prompt: "List all interpretations of the selected verse",
         purpose: "verse",
     },
     {
         title: "Ancient Interpretations",
-        icon: "🔍",
+        icon: "🗿️",
         prompt:
             "List ancient interpretations for the selected verse, you may include Jewish, Kabbalistic, Gnostic, Martin Lutherian, Alchemical, Paracelsus, and Early Christian interpretations",
+        purpose: "verse",
+    },
+    {
+        title: "Symbology",
+        icon: "🔑",
+        prompt:
+            "Elaborate on the symbology, prophetic, or advanced understanding of the verse.",
         purpose: "verse",
     },
 ];
