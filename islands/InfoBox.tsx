@@ -103,9 +103,12 @@ export class InfoBoxState {
     async openTab(tabId: number) {
         this.selectedTab.value = tabId;
         this.responseContent.value = "";
+        const bible = this.verbumState.bibleList.find((b) =>
+            b.id == this.bibleState.bibleId
+        );
         const prompt = `${
             infoTabs[tabId].prompt
-        }\nResponse may not exceed 50 words.\n${
+        }\nResponse may not exceed 50 words.\nVersion: ${bible?.id}: ${bible?.title}\n${
             this.bibleState.selectedWord
                 ? `Word: ${this.bibleState.selectedWord}\n\nContext: `
                 : `\n\nVerse: `
