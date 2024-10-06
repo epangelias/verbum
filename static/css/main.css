@@ -134,9 +134,10 @@ html {
 .info-box {
   padding: .3rem;
   z-index: 100;
-  height: 30%;
   border-top: 1px solid CanvasText;
   outline: 2px solid Canvas;
+  flex: 0.3;
+  overflow-y: auto;
 
   .content-center {
     display: flex;
@@ -164,7 +165,7 @@ html {
     }
 
     .content {
-      overflow-y: auto;
+      flex: 1;
 
       blockquote {
         text-align: center;
@@ -183,5 +184,30 @@ html {
     .button-text {
       display: none;
     }
+  }
+}
+
+
+
+
+/* Loader */
+
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: currentColor;
+  margin: 0 auto;
+  -webkit-mask: radial-gradient(circle closest-side at 50% 40%, #0000 94%, #000);
+  transform-origin: 50% 40%;
+  animation: l25 1s infinite linear;
+  scale: 0.5;
+}
+
+@keyframes l25 {
+  100% {
+    transform: rotate(1turn)
   }
 }

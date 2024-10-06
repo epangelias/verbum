@@ -96,9 +96,37 @@ export class InfoBoxState {
     selectedTab = useSignal(0);
     responseCache = new Map<string, string>();
     responseContent = useSignal("");
+    loading = useSignal(false);
 
-    openTab(tabId: number) {
+    async openTab(tabId: number) {
         this.selectedTab.value = tabId;
+        this.responseContent.value = "";
+        const prompt = `${
+            infoTabs[tabId].prompt
+        }\nResponse may not exceed 50 words.\n${
+            this.bibleState.selectedWord
+                ? `Word: ${this.bibleState.selectedWord}\n\nContext: `
+                : `\n\nVerse: `
+        }${this.bibleState.selectedVerse}`;
+        if (this.responseCache.has(prompt)) {
+            this.responseContent.value = this.responseCache.get(prompt)!;
+            return;
+        }
+
+        const verse = this.bibleState.chapterData.value?.verses.find(
+            (v) => v.verse == this.bibleState.selectedVerse.value,
+        );
+        if (verse?.notes && infoTabs[tabId].title == "Notes") {
+            this.responseContent.value = verse.notes;
+            return;
+        }
+
+        this.loading.value = true;
+        const body = JSON.stringify({ prompt });
+        const res = await fetch("/api/get-info", { body, method: "POST" });
+        this.responseContent.value = await res.text();
+        this.responseCache.set(prompt, this.responseContent.value);
+        this.loading.value = false;
     }
 }
 
@@ -142,7 +170,9 @@ export default function InfoBox({ infoBoxState }: InfoBoxProps) {
                 </div>
                 <div className="content">
                     <blockquote>{selectionContent}</blockquote>
-                    <p>{infoBoxState.responseContent.value}</p>
+                    {infoBoxState.loading.value
+                        ? <div className="loader"></div>
+                        : <p>{infoBoxState.responseContent.value}</p>}
                 </div>
             </div>
         </div>
