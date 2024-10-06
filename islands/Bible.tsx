@@ -1,4 +1,9 @@
-import { Signal, useSignal, useSignalEffect } from "@preact/signals";
+import {
+    Signal,
+    useComputed,
+    useSignal,
+    useSignalEffect,
+} from "@preact/signals";
 import { VerbumState } from "../lib/verbumState.ts";
 import { BookListItem, ChapterData } from "../lib/types.ts";
 import BibleSelector from "./BibleSelector.tsx";
@@ -17,6 +22,8 @@ export class BibleState {
     chapterData: Signal<ChapterData | null> = useSignal(null);
     bookList?: BookListItem[];
     chapters = useSignal([1]);
+    selectedWord = useSignal<string>();
+    selectedVerse = useSignal<number>();
 
     async loadChapter() {
         if (!this.bibleId || !this.bookId || !this.chapterId) return;
@@ -74,6 +81,18 @@ export class BibleState {
         this.chapterId = parseInt(chapter.toString());
         this.loadChapter();
     }
+
+    makeRawWord(word?: string) {
+        if (!word) return;
+        word = word.toLocaleLowerCase().replaceAll(",", "").replaceAll(".", "");
+        if (word.length < 5) return word;
+        return word.replace(/(que)$/, "")
+            .replace(/(et|us|am|i|æ|ae|o|a|um|i|em|tem|s)$/, "");
+    }
+
+    selectedRawWord = useComputed(() =>
+        this.makeRawWord(this.selectedWord.value)
+    );
 }
 
 interface BibleProps {
@@ -81,17 +100,26 @@ interface BibleProps {
 }
 
 export default function Bible({ bibleState }: BibleProps) {
-    const selectedText = useSignal<string | undefined>("");
-
     function matchWord(word: string) {
-        if (!selectedText.value) return;
-        const raw = (w: string) =>
-            w
-                .toLocaleLowerCase()
-                .replaceAll(",", "")
-                .replaceAll(".", "")
-                .replace(/(us|am|i|æ|ae|o|a|um|i|em)$/, "");
-        return raw(word) == raw(selectedText.value);
+        const rawWord = bibleState.makeRawWord(word);
+        if (
+            !bibleState.selectedWord.value ||
+            !bibleState.selectedRawWord.value || !rawWord
+        ) return;
+        return rawWord.startsWith(bibleState.selectedRawWord.value) ||
+            bibleState.selectedRawWord.value.startsWith(rawWord);
+    }
+
+    function selectWord(word: string, verse: number) {
+        if (bibleState.selectedVerse.value == verse) {
+            bibleState.selectedVerse.value = undefined;
+        } else if (word == bibleState.selectedWord.value) {
+            bibleState.selectedWord.value = undefined;
+            bibleState.selectedVerse.value = verse;
+        } else {
+            bibleState.selectedWord.value = word;
+            bibleState.selectedVerse.value = undefined;
+        }
     }
 
     return (
@@ -99,7 +127,11 @@ export default function Bible({ bibleState }: BibleProps) {
             <div className="content-center">
                 <div class="verses">
                     {bibleState.chapterData.value?.verses.map((verse) => (
-                        <div className="verse">
+                        <div
+                            className="verse"
+                            data-selected={bibleState.selectedVerse.value ==
+                                verse.verse}
+                        >
                             <p>
                                 <span className="verse-number">
                                     {verse.verse}
@@ -111,16 +143,16 @@ export default function Bible({ bibleState }: BibleProps) {
                                                 class="word"
                                                 data-selected={matchWord(word)}
                                                 onClick={() =>
-                                                    selectedText.value = word}
+                                                    selectWord(
+                                                        word,
+                                                        verse.verse,
+                                                    )}
                                             >
                                                 {word}
                                             </span>
                                             {" "}
                                         </>
                                     ))}
-                                </span>
-                                <span class="note-icon">
-                                    {verse.notes && "📝"}
                                 </span>
                             </p>
                         </div>
