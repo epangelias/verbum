@@ -25,6 +25,7 @@ html {
   display: flex;
   flex-direction: column;
   height: 100%;
+  overflow: hidden;
 }
 
 .bible-selector {
@@ -138,6 +139,7 @@ html {
   /* flex: 0.5; */
   height: 50%;
   max-height: 250px;
+  overflow: hidden;
 
   .content-center {
     display: flex;
