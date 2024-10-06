@@ -17,6 +17,10 @@ export default function App({ Component }: PageProps) {
           content="minimum-scale=1.0, width=device-width, maximum-scale=1, user-scalable=no"
           name="viewport"
         />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
       </head>
       <body>
         <main>
