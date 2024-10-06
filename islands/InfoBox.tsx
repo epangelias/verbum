@@ -111,7 +111,7 @@ export class InfoBoxState {
         );
         const prompt = `${
             infoTabs[tabId].prompt
-        }\nResponse may not exceed 50 words (Unless you are quoting verses).\nVersion: ${bible?.id}: ${bible?.title}\n${
+        }\nResponse may not exceed 50 words (Unless you are quoting verses).\nVersion: ${bible?.title} (${bible?.id})\n${
             this.bibleState.selectedWord
                 ? `Word: ${this.bibleState.selectedWord}\n\nContext: `
                 : `\n\nVerse: ${this.bibleState.bookId} ${verse?.chapter}:${verse?.verse} `
