@@ -22,14 +22,14 @@ const infoTabs: InfoTab[] = [
         title: "Hebrew",
         icon: "🇮🇱",
         prompt:
-            "Explain the meaning of the hebrew word that is used in place of the selected word in the original Hebrew",
+            "Explain is the Hebrew word behind the selected word in the selected verse.",
         purpose: "word",
     },
     {
         title: "Greek",
         icon: "🇬🇷",
         prompt:
-            "Explain the meaning of the greek word that is used as selected word in the LXX or Greek NT",
+            "Explain is the Greek word behind the selected word in the selected verse. It either comes from the LXX or the NT Greek",
         purpose: "word",
     },
     {
@@ -114,7 +114,7 @@ export class InfoBoxState {
         }\nResponse may not exceed 50 words (Unless you are quoting verses).\nVersion: ${bible?.id}: ${bible?.title}\n${
             this.bibleState.selectedWord
                 ? `Word: ${this.bibleState.selectedWord}\n\nContext: `
-                : `\n\nVerse: `
+                : `\n\nVerse: ${this.bibleState.bookId} ${verse?.chapter}:${verse?.verse} `
         }${verse?.text}`;
         if (this.responseCache.has(prompt)) {
             this.responseContent.value = this.responseCache.get(prompt)!;
