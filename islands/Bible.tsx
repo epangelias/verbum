@@ -23,6 +23,7 @@ export class BibleState {
     bookList?: BookListItem[];
     chapters = useSignal([1]);
     selectedWord = useSignal<string>();
+    selectedWordVerse = useSignal<number>();
     selectedVerse = useSignal<number>();
 
     async loadChapter() {
@@ -119,6 +120,7 @@ export default function Bible({ bibleState }: BibleProps) {
         } else {
             bibleState.selectedWord.value = word;
             bibleState.selectedVerse.value = undefined;
+            bibleState.selectedWordVerse.value = verse;
         }
     }
 

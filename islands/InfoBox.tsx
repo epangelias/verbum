@@ -114,15 +114,19 @@ export class InfoBoxState {
             b.id == this.bibleState.bibleId
         );
         const verse = this.bibleState.chapterData.value?.verses.find(
-            (v) => v.verse == this.bibleState.selectedVerse.value,
+            (v) =>
+                v.verse ==
+                    (this.bibleState.selectedVerse.value ||
+                        this.bibleState.selectedWordVerse.value),
         );
         const prompt = `${
             infoTabs[tabId].prompt
         }\nResponse may not exceed 50 words (Unless you are quoting verses).\nVersion: ${bible?.title} (${bible?.id})\n${
             this.bibleState.selectedWord
                 ? `Word: ${this.bibleState.selectedWord}\n\nContext: `
-                : `\n\nVerse: ${this.bibleState.bookId} ${verse?.chapter}:${verse?.verse} `
-        }${verse?.text}`;
+                : `\n\nVerse: `
+        }${this.bibleState.bookId} ${verse?.chapter}:${verse?.verse} ${verse?.text}`;
+        console.log(prompt);
         if (this.responseCache.has(prompt)) {
             this.responseContent.value = this.responseCache.get(prompt)!;
             return;
