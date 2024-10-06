@@ -106,21 +106,21 @@ export class InfoBoxState {
         const bible = this.verbumState.bibleList.find((b) =>
             b.id == this.bibleState.bibleId
         );
+        const verse = this.bibleState.chapterData.value?.verses.find(
+            (v) => v.verse == this.bibleState.selectedVerse.value,
+        );
         const prompt = `${
             infoTabs[tabId].prompt
         }\nResponse may not exceed 50 words.\nVersion: ${bible?.id}: ${bible?.title}\n${
             this.bibleState.selectedWord
                 ? `Word: ${this.bibleState.selectedWord}\n\nContext: `
                 : `\n\nVerse: `
-        }${this.bibleState.selectedVerse}`;
+        }${verse?.text}`;
         if (this.responseCache.has(prompt)) {
             this.responseContent.value = this.responseCache.get(prompt)!;
             return;
         }
 
-        const verse = this.bibleState.chapterData.value?.verses.find(
-            (v) => v.verse == this.bibleState.selectedVerse.value,
-        );
         if (verse?.notes && infoTabs[tabId].title == "Notes") {
             this.responseContent.value = verse.notes;
             return;
