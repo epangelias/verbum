@@ -133,7 +133,10 @@ export default function Bible({ bibleState }: BibleProps) {
                                 verse.verse}
                         >
                             <p>
-                                <span className="verse-number">
+                                <span
+                                    className="verse-number"
+                                    data-note={!!verse.notes}
+                                >
                                     {verse.verse}
                                 </span>
                                 <span>

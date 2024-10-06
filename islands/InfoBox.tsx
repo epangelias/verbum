@@ -51,15 +51,15 @@ const infoTabs: InfoTab[] = [
         purpose: "word",
     },
     {
-        title: "Cross-Reference",
-        icon: "🔗",
-        prompt: "List cross reference verses for the selected verse",
-        purpose: "verse",
-    },
-    {
         title: "Notes",
         icon: "📝",
         prompt: "Notes for the selected verse",
+        purpose: "verse",
+    },
+    {
+        title: "Cross-Reference",
+        icon: "🔗",
+        prompt: "List cross reference verses for the selected verse",
         purpose: "verse",
     },
     {
