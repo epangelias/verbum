@@ -171,18 +171,22 @@ export default function InfoBox({ infoBoxState }: InfoBoxProps) {
     return (
         <div class="info-box">
             <div className="content-center">
-                <div className="tabs">
-                    {tabs.map((tab) => (
-                        <button
-                            data-selected={infoBoxState.selectedTab.value ==
-                                infoTabs.indexOf(tab)}
-                            onClick={() =>
-                                infoBoxState.openTab(infoTabs.indexOf(tab))}
-                        >
-                            <span className="emoji">{tab.icon}</span>
-                            <span class="button-text">{" " + tab.title}</span>
-                        </button>
-                    ))}
+                <div className="tabs-container">
+                    <div className="tabs">
+                        {tabs.map((tab) => (
+                            <button
+                                data-selected={infoBoxState.selectedTab.value ==
+                                    infoTabs.indexOf(tab)}
+                                onClick={() =>
+                                    infoBoxState.openTab(infoTabs.indexOf(tab))}
+                            >
+                                <span className="emoji">{tab.icon}</span>
+                                <span class="button-text">
+                                    {" " + tab.title}
+                                </span>
+                            </button>
+                        ))}
+                    </div>
                 </div>
                 <div className="content">
                     <blockquote>{selectionContent}</blockquote>
