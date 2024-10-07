@@ -185,6 +185,9 @@ export class InfoBoxState {
     loading = useSignal(false);
 
     async openTab(tabId: number) {
+        const currentVerse = this.bibleState.selectedVerse.value;
+        const currentWord = this.bibleState.selectedWord.value;
+
         this.selectedTab.value = tabId;
         this.responseContent.value = "";
         const bible = this.verbumState.bibleList.find((b) =>
@@ -203,14 +206,15 @@ export class InfoBoxState {
                 ? `Word: ${this.bibleState.selectedWord}\n\nContext: `
                 : `\nDo not quote or translated the selected verse.\n\nVerse: `
         }${this.bibleState.bookId} ${verse?.chapter}:${verse?.verse} ${verse?.text}`;
-        console.log(prompt);
         if (this.getPromptCache(prompt)) {
             this.responseContent.value = this.getPromptCache(prompt)!;
+            this.loading.value = false;
             return;
         }
 
         if (verse?.notes && infoTabs[tabId].title == "Notes") {
             this.responseContent.value = verse.notes;
+            this.loading.value = false;
             return;
         }
 
@@ -218,6 +222,12 @@ export class InfoBoxState {
         const body = JSON.stringify({ prompt });
         const res = await fetch("/api/get-info", { body, method: "POST" });
         this.responseContent.value = await res.text();
+
+        if (
+            currentVerse != this.bibleState.selectedVerse.value ||
+            currentWord != this.bibleState.selectedWord.value
+        ) return;
+
         this.catchPrompt(prompt, this.responseContent.value);
         this.loading.value = false;
     }
