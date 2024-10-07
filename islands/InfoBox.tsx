@@ -103,7 +103,6 @@ export class InfoBoxState {
     bibleState: BibleState;
     verbumState: VerbumState;
     selectedTab = useSignal(0);
-    responseCache = new Map<string, string>();
     responseContent = useSignal("");
     loading = useSignal(false);
 
@@ -127,8 +126,8 @@ export class InfoBoxState {
                 : `\n\nVerse: `
         }${this.bibleState.bookId} ${verse?.chapter}:${verse?.verse} ${verse?.text}`;
         console.log(prompt);
-        if (this.responseCache.has(prompt)) {
-            this.responseContent.value = this.responseCache.get(prompt)!;
+        if (this.getPromptCache(prompt)) {
+            this.responseContent.value = this.getPromptCache(prompt)!;
             return;
         }
 
@@ -141,8 +140,16 @@ export class InfoBoxState {
         const body = JSON.stringify({ prompt });
         const res = await fetch("/api/get-info", { body, method: "POST" });
         this.responseContent.value = await res.text();
-        this.responseCache.set(prompt, this.responseContent.value);
+        this.catchPrompt(prompt, this.responseContent.value);
         this.loading.value = false;
+    }
+
+    catchPrompt(prompt: string, result: string) {
+        localStorage.setItem(`prompt:${prompt}`, result);
+    }
+    getPromptCache(prompt: string) {
+        if (!localStorage.getItem(`prompt:${prompt}`)) return null;
+        return localStorage.getItem(`prompt:${prompt}`);
     }
 }
 
