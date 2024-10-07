@@ -23,20 +23,34 @@ const infoTabs: InfoTab[] = [
         title: "Hebrew",
         icon: "🇮🇱",
         prompt:
-            "Explain is the Hebrew word behind the selected word in the selected verse.",
+            "Profoundly explain the Hebrew word behind the selected word in the selected verse.",
         purpose: "word",
     },
     {
         title: "Greek",
         icon: "🇬🇷",
         prompt:
-            "Explain is the Greek word behind the selected word in the selected verse. It either comes from the LXX or the NT Greek",
+            "Profoundly explain the Greek word behind the selected word in the selected verse. The word either comes from the LXX or the NT Greek",
         purpose: "word",
     },
     {
-        title: "Roots & Etymology",
+        title: "Jerome",
+        icon: "📜",
+        prompt:
+            "St. Jerome's commentary on why he may have translated the word in this way",
+        purpose: "word",
+    },
+    {
+        title: "Roots",
         icon: "🌱",
-        prompt: "List roots and etymology for the selected word",
+        prompt:
+            "List word roots selected word, include its etymology, include an english word that is derived from it or one of its roots if possible..",
+        purpose: "word",
+    },
+    {
+        title: "Word forms",
+        icon: "📚",
+        prompt: "Show all the linguistic forms of the selected word",
         purpose: "word",
     },
     {
@@ -46,15 +60,34 @@ const infoTabs: InfoTab[] = [
         purpose: "word",
     },
     {
-        title: "Other Verses",
+        title: "Verses",
         icon: "🔍",
-        prompt: "Quote other verses with the selected word",
+        prompt:
+            "Quote other verses that include the selected word. Fully quote each verse.",
+        purpose: "word",
+    },
+    {
+        title: "Memorize",
+        icon: "🧠",
+        prompt: "Help memorize the selected word",
+        purpose: "word",
+    },
+    {
+        title: "Examples of Usage",
+        icon: "📝",
+        prompt: "List examples of usage of the selected word",
         purpose: "word",
     },
     {
         title: "Notes",
         icon: "📝",
         prompt: "Notes for the selected verse",
+        purpose: "verse",
+    },
+    {
+        title: "Explanation",
+        icon: "📚",
+        prompt: "Explanation for the selected verse",
         purpose: "verse",
     },
     {
@@ -76,17 +109,61 @@ const infoTabs: InfoTab[] = [
         purpose: "verse",
     },
     {
-        title: "Ancient Interpretations",
-        icon: "🗿️",
-        prompt:
-            "List ancient interpretations for the selected verse, you may include Jewish, Kabbalistic, Gnostic, Martin Lutherian, Alchemical, Paracelsus, and Early Christian interpretations",
-        purpose: "verse",
-    },
-    {
         title: "Symbology",
         icon: "🔑",
         prompt:
             "Elaborate on the symbology, prophetic, or advanced understanding of the verse.",
+        purpose: "verse",
+    },
+    {
+        title: "Jerome Commentary",
+        icon: "📜",
+        prompt:
+            "Show Saint Jerome's commentary on why he translated this verse in the way he did",
+        purpose: "verse",
+    },
+    {
+        title: "Jerome",
+        icon: "🦁",
+        prompt: "Show Saint Jerome's understanding for the selected verse",
+        purpose: "verse",
+    },
+    {
+        title: "Augustine",
+        icon: "⛪",
+        prompt: "Show Augustine's understanding for the selected verse",
+        purpose: "verse",
+    },
+    {
+        title: "Paracelsus",
+        icon: "🧪",
+        prompt: "Show Paracelsus' understanding for the selected verse",
+        purpose: "verse",
+    },
+    {
+        title: "Kabbalism",
+        icon: "🕎",
+        prompt: "Show Kabbalism's understanding for the selected verse",
+        purpose: "verse",
+    },
+    {
+        title: "Luther",
+        icon: "📚",
+        prompt: "Show Luther's understanding for the selected verse",
+        purpose: "verse",
+    },
+    {
+        title: "Jewish Tradition",
+        icon: "🕍",
+        prompt:
+            "Show the ancient Jewish tradition's understanding for the selected verse",
+        purpose: "verse",
+    },
+    {
+        title: "Mysticism",
+        icon: "🌌",
+        prompt:
+            "Show the mystic/esoteric tradition's understanding for the selected verse",
         purpose: "verse",
     },
 ];
@@ -121,10 +198,10 @@ export class InfoBoxState {
         );
         const prompt = `${
             infoTabs[tabId].prompt
-        }\nResponse should be under 50 words if possible. Respond in basic markdown format, use bold instead of titles..\nVersion: ${bible?.title} (${bible?.id})\n${
+        }\nResponse should be under 50 words if possible. Respond in basic markdown format, use bold instead of titles. \nVersion: ${bible?.title} (${bible?.id})\n${
             this.bibleState.selectedWord
                 ? `Word: ${this.bibleState.selectedWord}\n\nContext: `
-                : `\n\nVerse: `
+                : `\nDo not quote or translated the selected verse.\n\nVerse: `
         }${this.bibleState.bookId} ${verse?.chapter}:${verse?.verse} ${verse?.text}`;
         console.log(prompt);
         if (this.getPromptCache(prompt)) {
@@ -199,6 +276,9 @@ export default function InfoBox({ infoBoxState }: InfoBoxProps) {
                     </div>
                 </div>
                 <div className="content">
+                    <h3>
+                        {infoTabs.at(infoBoxState.selectedTab?.value)?.title}
+                    </h3>
                     <blockquote>{selectionContent}</blockquote>
                     {infoBoxState.loading.value
                         ? <div className="loader"></div>

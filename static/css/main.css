@@ -203,6 +203,12 @@ html {
         margin: .25rem;
       }
 
+      h3 {
+        margin: .2rem 0;
+        opacity: 0.5;
+        text-align: center;
+      }
+
       p {
         margin: .25rem 0;
       }
