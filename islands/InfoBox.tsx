@@ -3,6 +3,7 @@ import { Button } from "../components/Button.tsx";
 import { VerbumState } from "../lib/verbumState.ts";
 import { BibleState } from "./Bible.tsx";
 import { useEffect } from "preact/hooks";
+import * as gmf from "https://deno.land/x/gfm@0.6.0/mod.ts";
 
 interface InfoTab {
     title: string;
@@ -120,7 +121,7 @@ export class InfoBoxState {
         );
         const prompt = `${
             infoTabs[tabId].prompt
-        }\nResponse may not exceed 50 words (Unless you are quoting verses).\nVersion: ${bible?.title} (${bible?.id})\n${
+        }\nResponse should be under 50 words if possible. Respond in basic markdown format, use bold instead of titles..\nVersion: ${bible?.title} (${bible?.id})\n${
             this.bibleState.selectedWord
                 ? `Word: ${this.bibleState.selectedWord}\n\nContext: `
                 : `\n\nVerse: `
@@ -175,6 +176,8 @@ export default function InfoBox({ infoBoxState }: InfoBoxProps) {
         infoBoxState.openTab(infoTabs.indexOf(tabs[0]));
     }, [selectionContent]);
 
+    const __html = gmf.render(infoBoxState.responseContent.value);
+
     return (
         <div class="info-box">
             <div className="content-center">
@@ -199,7 +202,11 @@ export default function InfoBox({ infoBoxState }: InfoBoxProps) {
                     <blockquote>{selectionContent}</blockquote>
                     {infoBoxState.loading.value
                         ? <div className="loader"></div>
-                        : <p>{infoBoxState.responseContent.value}</p>}
+                        : (
+                            <p dangerouslySetInnerHTML={{ __html }}>
+                                {infoBoxState.responseContent.value}
+                            </p>
+                        )}
                 </div>
             </div>
         </div>
