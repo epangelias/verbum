@@ -37,6 +37,8 @@ export class BibleState {
         this.chapters.value = new Array(
             this.bookList.find((b) => b.book === this.bookId)?.chapters,
         ).fill(0).map((_, i) => i + 1);
+        this.selectedVerse.value = undefined;
+        this.selectedWord.value = undefined;
     }
 
     async nextChapter() {
