@@ -27,30 +27,39 @@ export class BibleState {
     selectedVerse = useSignal<number>();
 
     async loadChapter() {
-        if (!this.bibleId || !this.bookId || !this.chapterId) return;
-        this.bookList = await this.verbumState.getBookList(this.bibleId);
-        this.chapterData.value = await this.verbumState.getVerses(
-            this.bibleId,
-            this.bookId,
-            this.chapterId,
-        );
-        this.chapters.value = new Array(
-            this.bookList.find((b) => b.book === this.bookId)?.chapters,
-        ).fill(0).map((_, i) => i + 1);
-        this.selectedVerse.value = undefined;
-        this.selectedWord.value = undefined;
+        try {
+            if (!this.bibleId || !this.bookId || !this.chapterId) return;
+            this.bookList = await this.verbumState.getBookList(this.bibleId);
+            this.chapterData.value = await this.verbumState.getVerses(
+                this.bibleId,
+                this.bookId,
+                this.chapterId,
+            );
+            this.chapters.value = new Array(
+                this.bookList.find((b) => b.name === this.bookId)?.chapters,
+            ).fill(0).map((_, i) => i + 1);
+            this.selectedVerse.value = undefined;
+            this.selectedWord.value = undefined;
+        } catch (e) {
+            this.chapters.value = [];
+            this.chapterData.value = { chapter: 0, verses: [] };
+            const newBookId = this.bookList?.at(0)?.name;
+            if (newBookId == this.bookId) return;
+            this.bookId = newBookId;
+            this.loadChapter();
+        }
     }
 
     async nextChapter() {
         if (!this.chapterId || !this.bibleId) return;
         const bookList = await this.verbumState.getBookList(this.bibleId);
-        const bookId = bookList.findIndex((b) => b.book === this.bookId);
+        const bookId = bookList.findIndex((b) => b.name === this.bookId);
         if (bookId == -1) return;
         const chapters = bookList[bookId].chapters;
         if (chapters == this.chapterId) {
             if (bookId == bookList.length - 1) return;
             this.chapterId = 1;
-            this.bookId = bookList[bookId + 1].book;
+            this.bookId = bookList[bookId + 1].name;
         } else this.chapterId += 1;
         this.loadChapter();
     }
@@ -58,19 +67,26 @@ export class BibleState {
     async prevChapter() {
         if (!this.chapterId || !this.bibleId) return;
         const bookList = await this.verbumState.getBookList(this.bibleId);
-        const bookId = bookList.findIndex((b) => b.book === this.bookId);
+        const bookId = bookList.findIndex((b) => b.name === this.bookId);
         if (bookId == -1) return;
         if (this.chapterId == 1) {
             if (bookId == 0) return;
             this.chapterId = bookList[bookId - 1].chapters;
-            this.bookId = bookList[bookId - 1].book;
+            this.bookId = bookList[bookId - 1].name;
         } else this.chapterId -= 1;
         this.loadChapter();
     }
 
+    versionMap = {
+        "LATVUL": "ENGVUL",
+        "ENGVUL": "KJV",
+        "KJV": "LXXTR",
+        "LXXTR": "WLC",
+        "WLC": "LATVUL",
+    };
+
     toggleBible() {
-        if (this.bibleId == "LATVUL") this.bibleId = "ENGVUL";
-        else this.bibleId = "LATVUL";
+        this.bibleId = this.versionMap[this.bibleId];
         this.loadChapter();
     }
 

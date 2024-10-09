@@ -1,4 +1,5 @@
 export interface VerseData {
+    name: string;
     chapter: number;
     verse: 1;
     text: string;
@@ -12,7 +13,7 @@ export interface ChapterData {
 
 export interface BookData {
     bookNumber: number;
-    book: string;
+    name: string;
     testament: "OT" | "NT" | "AP";
     chapters: ChapterData[];
 }
@@ -24,7 +25,7 @@ export interface BibleData {
 }
 
 export interface BookListItem {
-    book: string;
+    name: string;
     bookNumber: number;
     testament: "OT" | "NT" | "AP";
     chapters: number;

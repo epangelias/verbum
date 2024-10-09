@@ -6,6 +6,15 @@ export class VerbumState {
     bibleList = [{ title: "Latin Vulgate", id: "LATVUL" }, {
         title: "English Vulgate",
         id: "ENGVUL",
+    }, {
+        title: "King James Version",
+        id: "KJV",
+    }, {
+        title: "Greek Septuagint & Textus Receptus",
+        id: "LXXTR",
+    }, {
+        title: "Masoretic Hebrew",
+        id: "WLC",
     }];
 
     async getBibleData(id: string) {
@@ -14,8 +23,7 @@ export class VerbumState {
         if (data) return this.bibleData[id] = data as BibleData;
         const res = await fetch(`/bibles/${id}.json`);
         if (!res.ok) throw new Error("Failed to fetch bible data");
-        const books = await res.json();
-        data = { books };
+        data = await res.json();
         this.bibleData[id] = data;
         setData("bibleData-" + id, data);
         return data as BibleData;
@@ -23,8 +31,8 @@ export class VerbumState {
 
     async getBookList(id: string) {
         const data = await this.getBibleData(id);
-        return data.books.map(({ book, bookNumber, testament, chapters }) => ({
-            book,
+        return data.books.map(({ name, bookNumber, testament, chapters }) => ({
+            name,
             bookNumber,
             testament,
             chapters: chapters.length,
@@ -33,7 +41,7 @@ export class VerbumState {
 
     async getVerses(id: string, book: string, chapter: number) {
         const data = await this.getBibleData(id);
-        const bookData = data.books.find((b) => b.book === book);
+        const bookData = data.books.find((b) => b.name === book);
         if (!bookData) throw new Error("Book not found");
         const chapterData = bookData.chapters.find((c) =>
             c.chapter === chapter

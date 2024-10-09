@@ -10,6 +10,8 @@ interface InfoTab {
     icon: string;
     prompt: string;
     purpose: "verse" | "word";
+    showHebrew?: boolean;
+    showGreek?: boolean;
 }
 
 const infoTabs: InfoTab[] = [
@@ -25,6 +27,7 @@ const infoTabs: InfoTab[] = [
         prompt:
             "Profoundly explain the Hebrew word behind the selected word in the selected verse.",
         purpose: "word",
+        showHebrew: true,
     },
     {
         title: "Greek",
@@ -32,6 +35,7 @@ const infoTabs: InfoTab[] = [
         prompt:
             "Profoundly explain the Greek word behind the selected word in the selected verse. The word either comes from the LXX or the NT Greek",
         purpose: "word",
+        showGreek: true,
     },
     {
         title: "Jerome",
@@ -158,6 +162,7 @@ const infoTabs: InfoTab[] = [
         prompt:
             "Show the ancient Jewish tradition's understanding for the selected verse",
         purpose: "verse",
+        showHebrew: true,
     },
     {
         title: "Mysticism",
@@ -199,13 +204,49 @@ export class InfoBoxState {
                     (this.bibleState.selectedVerse.value ||
                         this.bibleState.selectedWordVerse.value),
         );
-        const prompt = `${
+        let prompt = `${
             infoTabs[tabId].prompt
         }\nResponse should be under 50 words if possible. Respond in basic markdown format, use bold instead of titles. \nVersion: ${bible?.title} (${bible?.id})\n${
             this.bibleState.selectedWord
                 ? `Word: ${this.bibleState.selectedWord}\n\nContext: `
                 : `\nDo not quote or translated the selected verse.\n\nVerse: `
-        }${this.bibleState.bookId} ${verse?.chapter}:${verse?.verse} ${verse?.text}`;
+        }${verse?.name} ${verse?.text}`;
+
+        if (infoTabs[tabId].showGreek) {
+            const bookData = await this.verbumState.getBibleData("LXXTR");
+            const book = bookData.books.find((b) =>
+                b.name == this.bibleState.bookId
+            );
+            const chapter = book?.chapters.find((c) =>
+                c.chapter == this.bibleState.chapterId
+            );
+            const verse = chapter?.verses.find((v) =>
+                v.verse ==
+                    (this.bibleState.selectedVerse.value ||
+                        this.bibleState.selectedWordVerse.value)
+            );
+            if (verse) prompt += `\n\nGreek verse for reference: ${verse.text}`;
+        }
+
+        if (infoTabs[tabId].showHebrew) {
+            const bookData = await this.verbumState.getBibleData("WLC");
+            const book = bookData.books.find((b) =>
+                b.name == this.bibleState.bookId
+            );
+            const chapter = book?.chapters.find((c) =>
+                c.chapter == this.bibleState.chapterId
+            );
+            const verse = chapter?.verses.find((v) =>
+                v.verse ==
+                    (this.bibleState.selectedVerse.value ||
+                        this.bibleState.selectedWordVerse.value)
+            );
+            if (verse) {
+                prompt += `\n\nHebrew verse for reference: ${verse.text}`;
+            }
+        }
+        console.log(prompt);
+
         if (this.getPromptCache(prompt)) {
             this.responseContent.value = this.getPromptCache(prompt)!;
             this.loading.value = false;

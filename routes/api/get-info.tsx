@@ -5,6 +5,8 @@ export const handler = define.handlers({
     async POST(ctx) {
         try {
             const openai = new OpenAI({
+                // baseURL: "http://localhost:11434/v1",// "https://api.groq.com/openai/v1",
+                // apiKey: "ollama", //"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",
                 baseURL: "https://api.groq.com/openai/v1",
                 apiKey:
                     "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",

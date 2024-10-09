@@ -22,7 +22,7 @@ export default function BibleSelector({ bibleState }: BibleSelectorProps) {
                             (e.target as HTMLSelectElement).value,
                         )}
                 >
-                    {bibleState.bookList?.map((b) => <option>{b.book}</option>)}
+                    {bibleState.bookList?.map((b) => <option>{b.name}</option>)}
                 </select>
                 <select
                     class="chapter"
