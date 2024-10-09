@@ -188,11 +188,9 @@ export class InfoBoxState {
     selectedTab = useSignal(0);
     responseContent = useSignal("");
     loading = useSignal(false);
+    currentPrompt = "";
 
     async openTab(tabId: number) {
-        const currentVerse = this.bibleState.selectedVerse.value;
-        const currentWord = this.bibleState.selectedWord.value;
-
         this.selectedTab.value = tabId;
         this.responseContent.value = "";
         const bible = this.verbumState.bibleList.find((b) =>
@@ -246,6 +244,7 @@ export class InfoBoxState {
             }
         }
         console.log(prompt);
+        this.currentPrompt = prompt;
 
         if (this.getPromptCache(prompt)) {
             this.responseContent.value = this.getPromptCache(prompt)!;
@@ -265,8 +264,7 @@ export class InfoBoxState {
         this.responseContent.value = await res.text();
 
         if (
-            currentVerse != this.bibleState.selectedVerse.value ||
-            currentWord != this.bibleState.selectedWord.value
+            prompt != this.currentPrompt
         ) return;
 
         this.catchPrompt(prompt, this.responseContent.value);
