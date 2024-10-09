@@ -58,12 +58,6 @@ const infoTabs: InfoTab[] = [
         purpose: "word",
     },
     {
-        title: "Metaphysical",
-        icon: "🔮",
-        prompt: "List metaphysical significance of the selected word",
-        purpose: "word",
-    },
-    {
         title: "Verses",
         icon: "🔍",
         prompt:
@@ -83,6 +77,50 @@ const infoTabs: InfoTab[] = [
         purpose: "word",
     },
     {
+        title: "Synonyms",
+        icon: "🔄",
+        prompt:
+            "List synonyms for the selected word in the same language with meaning.",
+        purpose: "word",
+    },
+    {
+        title: "Pronunciation",
+        icon: "🔊",
+        prompt: "Show pronunciation of the selected word",
+        purpose: "word",
+    },
+    {
+        title: "Cognates",
+        icon: "🧬",
+        prompt: "List cognates of the selected word in related languages.",
+        purpose: "word",
+    },
+    {
+        title: "Hebrew Gematria",
+        icon: "🔢",
+        prompt: "Show the gematria value of the selected Hebrew word.",
+        purpose: "word",
+        showHebrew: true,
+    },
+    {
+        title: "Hebrew Pictographic Meaning",
+        icon: "🎨",
+        prompt:
+            "Explain the pictographic meaning of the selected word, focusing on ancient Hebrew letters.",
+        purpose: "word",
+        showHebrew: true,
+    },
+    {
+        title: "Greek Isopsephy",
+        icon: "🔢",
+        prompt:
+            "Show the isopsephy value of the selected Greek word using the word.",
+        purpose: "word",
+        showGreek: true,
+    },
+
+    // Verses
+    {
         title: "Notes",
         icon: "📝",
         prompt: "Notes for the selected verse",
@@ -98,12 +136,6 @@ const infoTabs: InfoTab[] = [
         title: "Cross-Reference",
         icon: "🔗",
         prompt: "List cross reference verses for the selected verse",
-        purpose: "verse",
-    },
-    {
-        title: "Metaphysics",
-        icon: "🔮",
-        prompt: "Metaphysics for the selected verse",
         purpose: "verse",
     },
     {
@@ -164,11 +196,172 @@ const infoTabs: InfoTab[] = [
         purpose: "verse",
         showHebrew: true,
     },
+
+    // AI GENERATED
+
     {
-        title: "Mysticism",
-        icon: "🌌",
+        title: "Historical Background",
+        icon: "🏛️",
+        prompt: "Provide the historical background of the selected verse.",
+        purpose: "verse",
+    },
+    {
+        title: "Early Church Fathers",
+        icon: "⛪",
         prompt:
-            "Show the mystic/esoteric tradition's understanding for the selected verse",
+            "Summarize what the early Church Fathers wrote about this verse.",
+        purpose: "verse",
+    },
+    {
+        title: "Theological Debates",
+        icon: "⚔️",
+        prompt:
+            "List theological debates or controversies surrounding this verse.",
+        purpose: "verse",
+    },
+    {
+        title: "Doctrinal Importance",
+        icon: "🛐",
+        prompt: "Explain the doctrinal significance of the selected verse.",
+        purpose: "verse",
+    },
+    {
+        title: "Parallels in Apocrypha",
+        icon: "📜",
+        prompt:
+            "Show parallels from the Apocrypha or other non-canonical texts.",
+        purpose: "verse",
+    },
+    {
+        title: "Poetic Structure",
+        icon: "🎶",
+        prompt:
+            "Analyze the poetic structure or chiastic elements in the selected verse.",
+        purpose: "verse",
+    },
+    {
+        title: "Hebrew Parallelism",
+        icon: "🔄",
+        prompt: "Explain the Hebrew parallelism found in the verse.",
+        purpose: "verse",
+        showHebrew: true,
+    },
+    {
+        title: "Prophecies Fulfilled",
+        icon: "🔮",
+        prompt: "List the prophecies fulfilled by the selected verse.",
+        purpose: "verse",
+    },
+    {
+        title: "Typology",
+        icon: "🕊️",
+        prompt:
+            "Show typological connections between the selected verse and other biblical figures or events.",
+        purpose: "verse",
+    },
+    {
+        title: "Targum",
+        icon: "📖",
+        prompt: "Show how the verse is explained in the Targum.",
+        purpose: "verse",
+    },
+    {
+        title: "Messianic Prophecies",
+        icon: "✝️",
+        prompt: "Explain how this verse relates to messianic prophecies.",
+        purpose: "verse",
+    },
+    {
+        title: "Moral Teachings",
+        icon: "🧭",
+        prompt: "List moral teachings derived from the selected verse.",
+        purpose: "verse",
+    },
+    {
+        title: "Canonical Significance",
+        icon: "📚",
+        prompt:
+            "Explain the canonical significance of this verse within the Bible.",
+        purpose: "verse",
+    },
+    {
+        title: "Ancient Manuscripts",
+        icon: "🧾",
+        prompt:
+            "List significant differences in ancient manuscripts for the selected verse.",
+        purpose: "verse",
+    },
+    {
+        title: "Variant Readings",
+        icon: "📜",
+        prompt: "Show significant variant readings from ancient sources.",
+        purpose: "verse",
+    },
+    {
+        title: "Qumran",
+        icon: "🏺",
+        prompt:
+            "Explain any connections between this verse and the Dead Sea Scrolls.",
+        purpose: "verse",
+    },
+    {
+        title: "Gnostic Interpretation",
+        icon: "🌀",
+        prompt: "Show Gnostic interpretations of the selected verse.",
+        purpose: "verse",
+    },
+    {
+        title: "Aramaic Targum",
+        icon: "📝",
+        prompt: "Show how this verse was explained in Aramaic Targums.",
+        purpose: "verse",
+    },
+    {
+        title: "Midrash",
+        icon: "📚",
+        prompt: "Show Midrashic commentary on the selected verse.",
+        purpose: "verse",
+    },
+    {
+        title: "Cultural References",
+        icon: "🎭",
+        prompt: "List cultural references that come from this verse.",
+        purpose: "verse",
+    },
+    {
+        title: "Archeological Evidence",
+        icon: "🗿",
+        prompt: "Provide archeological evidence supporting this verse.",
+        purpose: "verse",
+    },
+    {
+        title: "Artistic Representations",
+        icon: "🎨",
+        prompt: "Show famous artistic representations inspired by this verse.",
+        purpose: "verse",
+    },
+    {
+        title: "Music or Hymns",
+        icon: "🎶",
+        prompt: "List hymns or music inspired by this verse.",
+        purpose: "verse",
+    },
+    {
+        title: "Soteriology",
+        icon: "✝️",
+        prompt: "Explain how this verse ties into the doctrine of salvation.",
+        purpose: "verse",
+    },
+    {
+        title: "Eschatology",
+        icon: "🌅",
+        prompt: "Explain eschatological interpretations of this verse.",
+        purpose: "verse",
+    },
+    {
+        title: "Angels/Demons",
+        icon: "👼",
+        prompt: "List any references to angels or demons in this verse.",
         purpose: "verse",
     },
 ];

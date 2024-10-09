@@ -88,7 +88,7 @@ html {
         color: CanvasText;
 
         &[data-note="true"] {
-          color: yellow;
+          color: color-mix(in srgb, yellow, CanvasText 30%);
           opacity: 1;
           font-weight: bold;
         }

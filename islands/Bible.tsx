@@ -130,15 +130,22 @@ export default function Bible({ bibleState }: BibleProps) {
     }
 
     function selectWord(word: string, verse: number) {
-        if (bibleState.selectedVerse.value == verse) {
-            bibleState.selectedVerse.value = undefined;
-        } else if (word == bibleState.selectedWord.value) {
+        setTimeout(() => {
+            if (!bibleState.selectedVerse.value) {
+                bibleState.selectedWord.value = word;
+                bibleState.selectedVerse.value = undefined;
+                bibleState.selectedWordVerse.value = verse;
+            }
+        });
+    }
+
+    function clickVerse(verse: number) {
+        if (bibleState.selectedWordVerse.value == verse) {
+            bibleState.selectedWordVerse.value = undefined;
             bibleState.selectedWord.value = undefined;
             bibleState.selectedVerse.value = verse;
         } else {
-            bibleState.selectedWord.value = word;
             bibleState.selectedVerse.value = undefined;
-            bibleState.selectedWordVerse.value = verse;
         }
     }
 
@@ -152,7 +159,7 @@ export default function Bible({ bibleState }: BibleProps) {
                             data-selected={bibleState.selectedVerse.value ==
                                 verse.verse}
                         >
-                            <p>
+                            <p onClick={() => clickVerse(verse.verse)}>
                                 <span
                                     className="verse-number"
                                     data-note={!!verse.notes}
