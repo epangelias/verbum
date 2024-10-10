@@ -220,7 +220,12 @@ html {
 
   .info-box {
     .button-text {
-      display: none;
+      /* display: none; */
+    }
+
+    .button-text,
+    .emoji {
+      font-size: 0.5em;
     }
   }
 }

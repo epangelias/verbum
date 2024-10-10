@@ -71,12 +71,6 @@ const infoTabs: InfoTab[] = [
         purpose: "word",
     },
     {
-        title: "Examples of Usage",
-        icon: "📝",
-        prompt: "List examples of usage of the selected word",
-        purpose: "word",
-    },
-    {
         title: "Synonyms",
         icon: "🔄",
         prompt:
@@ -87,12 +81,6 @@ const infoTabs: InfoTab[] = [
         title: "Pronunciation",
         icon: "🔊",
         prompt: "Show pronunciation of the selected word",
-        purpose: "word",
-    },
-    {
-        title: "Cognates",
-        icon: "🧬",
-        prompt: "List cognates of the selected word in related languages.",
         purpose: "word",
     },
     {
@@ -233,24 +221,11 @@ const infoTabs: InfoTab[] = [
         purpose: "verse",
     },
     {
-        title: "Poetic Structure",
-        icon: "🎶",
-        prompt:
-            "Analyze the poetic structure or chiastic elements in the selected verse.",
-        purpose: "verse",
-    },
-    {
         title: "Hebrew Parallelism",
         icon: "🔄",
         prompt: "Explain the Hebrew parallelism found in the verse.",
         purpose: "verse",
         showHebrew: true,
-    },
-    {
-        title: "Prophecies Fulfilled",
-        icon: "🔮",
-        prompt: "List the prophecies fulfilled by the selected verse.",
-        purpose: "verse",
     },
     {
         title: "Typology",
