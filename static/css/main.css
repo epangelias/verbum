@@ -72,8 +72,13 @@ html {
   overflow-y: auto;
   user-select: none;
 
+
   .verses {
     .verse {
+      &[data-continua="true"] {
+        font-family: 'Times New Roman', Times, serif;
+      }
+
       margin-left: 1.1rem;
 
       .verse-number {
@@ -82,10 +87,14 @@ html {
         display: inline-block;
         position: relative;
         left: -1rem;
+        top: .27rem;
         width: 0;
         opacity: 0.7;
         font-size: .6em;
         color: CanvasText;
+        word-break: normal;
+        word-wrap: normal;
+        float: left;
 
         &[data-note="true"] {
           color: color-mix(in srgb, yellow, CanvasText 30%);
@@ -97,6 +106,7 @@ html {
       p {
         margin: .5rem 0;
         line-height: 1.25;
+        word-wrap: break-word;
       }
 
       &[data-selected="true"] {

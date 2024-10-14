@@ -25,6 +25,7 @@ export class BibleState {
     selectedWord = useSignal<string>();
     selectedWordVerse = useSignal<number>();
     selectedVerse = useSignal<number>();
+    scriptioContinua = useSignal(false);
 
     async loadChapter() {
         try {
@@ -119,6 +120,15 @@ interface BibleProps {
 }
 
 export default function Bible({ bibleState }: BibleProps) {
+    useEffect(() => {
+        document.addEventListener("keydown", (e) => {
+            if (e.key == " " && e.ctrlKey) {
+                bibleState.scriptioContinua.value = !bibleState.scriptioContinua
+                    .value;
+            }
+        });
+    }, []);
+
     function matchWord(word: string) {
         const rawWord = bibleState.makeRawWord(word);
         if (
@@ -157,6 +167,7 @@ export default function Bible({ bibleState }: BibleProps) {
                             className="verse"
                             data-selected={bibleState.selectedVerse.value ==
                                 verse.verse}
+                            data-continua={bibleState.scriptioContinua.value}
                         >
                             <p>
                                 <span
@@ -166,22 +177,27 @@ export default function Bible({ bibleState }: BibleProps) {
                                     {verse.verse}
                                 </span>
                                 <span>
-                                    {verse.text.split(" ").map((word) => (
-                                        <>
-                                            <span
-                                                class="word"
-                                                data-selected={matchWord(word)}
-                                                onClick={() =>
-                                                    selectWord(
+                                    {(bibleState.scriptioContinua.value
+                                        ? verse.text.replaceAll(/[,.:]/g, " ")
+                                        : verse.text).split(" ").map((word) => (
+                                            <>
+                                                <span
+                                                    class="word"
+                                                    data-selected={matchWord(
                                                         word,
-                                                        verse.verse,
                                                     )}
-                                            >
-                                                {word}
-                                            </span>
-                                            {" "}
-                                        </>
-                                    ))}
+                                                    onClick={() =>
+                                                        selectWord(
+                                                            word,
+                                                            verse.verse,
+                                                        )}
+                                                >
+                                                    {word}
+                                                </span>
+                                                {!bibleState.scriptioContinua
+                                                    .value && " "}
+                                            </>
+                                        ))}
                                 </span>
                             </p>
                         </div>
